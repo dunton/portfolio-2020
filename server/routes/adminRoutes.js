@@ -9,14 +9,22 @@ module.exports = app => {
   //   }).save();
   // });
 
-  app.get('/api/admin/verify', async (req, res) => {
-    console.log(req.body);
-    const user = await User.find({
-      name: 'ryan_dnton',
-      password: 'Gobroncos15!'
+  app.post('/api/admin/login', async (req, res) => {
+    const { userName, password } = req.body;
+
+    const user = await User.findOne({
+      name: userName
     });
 
-    const response = Object.keys(user).length ? true : false;
-    res.send({ verified: response });
+    if (user && password === user.password) {
+      res.send({ verified: true });
+      return;
+    }
+
+    res.send({ verified: false });
+  });
+
+  app.post('/api/admin/logout', async (req, res) => {
+    res.send({ verified: false });
   });
 };

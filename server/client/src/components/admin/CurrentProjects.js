@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { uuid } from 'uuidv4';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const CurrentProjects = () => {
+  const { toggleLogin } = useContext(AuthContext);
   const [deleteProjectModalState, setDeleteProjectModalState] = useState(false);
   const [editProjectModalState, setEditProjectModalState] = useState(false);
   const [projects, setProjects] = useState([]);
@@ -61,7 +63,6 @@ const CurrentProjects = () => {
     const id = selectedProject ? projects[selectedProjectIndex]._id : false;
 
     const updatedProject = { name, link, image, id };
-    checkForm(updatedProject);
     axios
       .post('/api/projects/save', updatedProject)
       .then(({ data }) => {
@@ -74,146 +75,155 @@ const CurrentProjects = () => {
       .catch(err => console.log(err));
   };
 
-  const checkForm = obj => {
-    for (let key in obj) {
-      console.log(obj[key]);
-    }
-  };
-
   const closeModals = e => {
     setDeleteProjectModalState(false);
     setEditProjectModalState(false);
   };
 
+  const handleSignOut = () => {
+    window.localStorage.setItem('dunton_admin', '');
+    toggleLogin(false);
+  };
+
   return (
-    <Container>
-      <div className="projects">
-        <h3>Current Projects</h3>
-        <div className="add-project">
-          <i
-            className="large material-icons"
-            onClick={() => handleEditProjectClick(false, false)}
-          >
-            add_circle_outline
-          </i>
-        </div>
-        <div className="card-holder">
-          {projects.map((project, i) => {
-            const { name, link, image } = project;
-            return (
-              <Card key={uuid()} className="blue-grey darken-1">
-                <div className="lockup">
-                  <div>
-                    <i
-                      className="small material-icons"
-                      onClick={() => handleEditProjectClick(project, i)}
-                    >
-                      create
-                    </i>
-                    <i
-                      className="small material-icons"
-                      onClick={() => handleDeleteProjectClick(project, i)}
-                    >
-                      clear
-                    </i>
+    <>
+      <LogoutContainer>
+        <button
+          onClick={handleSignOut}
+          className="btn waves-effect waves-light"
+        >
+          Logout
+        </button>
+      </LogoutContainer>
+      <Container>
+        <div className="projects">
+          <h3>Current Projects</h3>
+          <div className="add-project">
+            <i
+              className="large material-icons"
+              onClick={() => handleEditProjectClick(false, false)}
+            >
+              add_circle_outline
+            </i>
+          </div>
+          <div className="card-holder">
+            {projects.map((project, i) => {
+              const { name, link, image } = project;
+              return (
+                <Card key={uuid()} className="blue-grey darken-1">
+                  <div className="lockup">
+                    <div>
+                      <i
+                        className="small material-icons"
+                        onClick={() => handleEditProjectClick(project, i)}
+                      >
+                        create
+                      </i>
+                      <i
+                        className="small material-icons"
+                        onClick={() => handleDeleteProjectClick(project, i)}
+                      >
+                        clear
+                      </i>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <h4>
-                    Project Name: <span>{name}</span>
-                  </h4>
-                  <p>
-                    link:
-                    <a href={link} target="_blank">
-                      {link}
-                    </a>
-                  </p>
-                  <p>
-                    image:
-                    <a href={image} target="_blank">
-                      {image}
-                    </a>
-                  </p>
-                </div>
-              </Card>
-            );
-          })}
+                  <div>
+                    <h4>
+                      Project Name: <span>{name}</span>
+                    </h4>
+                    <p>
+                      link:
+                      <a href={link} target="_blank">
+                        {link}
+                      </a>
+                    </p>
+                    <p>
+                      image:
+                      <a href={image} target="_blank">
+                        {image}
+                      </a>
+                    </p>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      {deleteProjectModalState && (
-        <Modal onClick={closeModals}>
-          <div className="delete-modal">
-            <div>
-              <h6>Are you sure you want to delete this project?</h6>
-              <button
-                className="btn waves-effect waves-light"
-                onClick={deleteProject}
-              >
-                yes
-              </button>
-              <button
-                className="btn waves-effect waves-light"
-                onClick={() => setDeleteProjectModalState(false)}
-              >
-                no
-              </button>
+        {deleteProjectModalState && (
+          <Modal onClick={closeModals}>
+            <div className="delete-modal">
+              <div>
+                <h6>Are you sure you want to delete this project?</h6>
+                <button
+                  className="btn waves-effect waves-light"
+                  onClick={deleteProject}
+                >
+                  yes
+                </button>
+                <button
+                  className="btn waves-effect waves-light"
+                  onClick={() => setDeleteProjectModalState(false)}
+                >
+                  no
+                </button>
+              </div>
             </div>
-          </div>
-        </Modal>
-      )}
+          </Modal>
+        )}
 
-      {editProjectModalState && (
-        <Modal onClick={closeModals}>
-          <div className="project-modal" onClick={e => e.stopPropagation()}>
-            <form onSubmit={saveProject}>
-              <div className="input-field col s6">
-                <input
-                  onChange={e => setFormName(e.target.value)}
-                  placeholder={
-                    projects[selectedProjectIndex]
-                      ? projects[selectedProjectIndex].name
-                      : 'name'
-                  }
-                  type="text"
-                  value={formName}
-                />
-                <span className="helper-text">project name</span>
-              </div>
-              <div className="input-field col s6">
-                <input
-                  onChange={e => setFormLink(e.target.value)}
-                  placeholder={
-                    projects[selectedProjectIndex]
-                      ? projects[selectedProjectIndex].link
-                      : 'link'
-                  }
-                  type="text"
-                  value={formLink}
-                />
-                <span className="helper-text">project link</span>
-              </div>
-              <div className="input-field col s6">
-                <input
-                  onChange={e => setFormImage(e.target.value)}
-                  placeholder={
-                    projects[selectedProjectIndex]
-                      ? projects[selectedProjectIndex].image
-                      : 'image'
-                  }
-                  type="text"
-                  value={formImage}
-                />
-                <span className="helper-text">project image</span>
-              </div>
-              <button className="btn waves-effect waves-light" type="submit">
-                Save
-              </button>
-            </form>
-          </div>
-        </Modal>
-      )}
-    </Container>
+        {editProjectModalState && (
+          <Modal onClick={closeModals}>
+            <div className="project-modal" onClick={e => e.stopPropagation()}>
+              <form onSubmit={saveProject}>
+                <div className="input-field col s6">
+                  <input
+                    onChange={e => setFormName(e.target.value)}
+                    placeholder={
+                      projects[selectedProjectIndex]
+                        ? projects[selectedProjectIndex].name
+                        : 'name'
+                    }
+                    type="text"
+                    value={formName}
+                  />
+                  <span className="helper-text">project name</span>
+                </div>
+                <div className="input-field col s6">
+                  <input
+                    onChange={e => setFormLink(e.target.value)}
+                    placeholder={
+                      projects[selectedProjectIndex]
+                        ? projects[selectedProjectIndex].link
+                        : 'link'
+                    }
+                    type="text"
+                    value={formLink}
+                  />
+                  <span className="helper-text">project link</span>
+                </div>
+                <div className="input-field col s6">
+                  <input
+                    onChange={e => setFormImage(e.target.value)}
+                    placeholder={
+                      projects[selectedProjectIndex]
+                        ? projects[selectedProjectIndex].image
+                        : 'image'
+                    }
+                    type="text"
+                    value={formImage}
+                  />
+                  <span className="helper-text">project image</span>
+                </div>
+                <button className="btn waves-effect waves-light" type="submit">
+                  Save
+                </button>
+              </form>
+            </div>
+          </Modal>
+        )}
+      </Container>
+    </>
   );
 };
 
@@ -304,6 +314,14 @@ const Modal = styled.div`
     form {
       padding: 10px;
     }
+  }
+`;
+
+const LogoutContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  button {
+    margin: 10px;
   }
 `;
 

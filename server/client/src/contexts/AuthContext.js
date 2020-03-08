@@ -3,7 +3,7 @@ import React, { createContext, useState } from 'react';
 const AuthContext = createContext();
 
 const AuthContextProvider = props => {
-  const [loggedIn, setIsLoggedIn] = useState(true);
+  const [loggedIn, setIsLoggedIn] = useState(false);
   const toggleLogin = () => {
     if (loggedIn) {
       setIsLoggedIn(false);

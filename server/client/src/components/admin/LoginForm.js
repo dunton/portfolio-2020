@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -7,10 +7,27 @@ const LoginForm = () => {
   const { toggleLogin } = useContext(AuthContext);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const isVerified = window.localStorage.getItem('dunton_admin');
+    if (isVerified) {
+      toggleLogin(true);
+    }
+  }, []);
   const handleSubmit = e => {
     e.preventDefault();
-    // axios.post('/admin/verify', { userName, password });
-    toggleLogin(true);
+    axios
+      .post('/api/admin/login', { userName, password })
+      .then(({ data }) => {
+        if (data.verified) {
+          window.localStorage.setItem('dunton_admin', 'true');
+          toggleLogin(true);
+        } else {
+          setError(true);
+        }
+      })
+      .catch(err => console.log(err));
   };
   return (
     <Container>
@@ -33,6 +50,7 @@ const LoginForm = () => {
           <button className="btn waves-effect waves-light" type="submit">
             Submit
           </button>
+          {error && <p className="error">wrong username or password</p>}
         </form>
       </div>
     </Container>
@@ -60,6 +78,10 @@ const Container = styled.div`
         border: 1px solid grey;
       }
     }
+  }
+  .error {
+    color: red;
+    line-height: 1;
   }
 `;
 
