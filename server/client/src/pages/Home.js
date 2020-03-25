@@ -4,7 +4,6 @@ import { uuid } from 'uuidv4';
 import axios from 'axios';
 import Header from '../components/Header';
 import Project from '../components/Project';
-import { projectData } from '../components/ProjectData';
 
 const Home = props => {
   const [projects, setProjects] = useState([]);

@@ -28,7 +28,7 @@ module.exports = app => {
   });
 
   app.get('/api/projects/findAll', async (req, res) => {
-    const projects = await Project.find();
+    const projects = await Project.find().sort({ _id: -1 });
     res.send(projects);
     res.sendStatus(200);
   });
