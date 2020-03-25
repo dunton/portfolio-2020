@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
 class Header extends Component {
   render() {
@@ -27,7 +27,7 @@ const HeaderContainer = styled.div`
     height: 50vh;
   }
   background-image: url(${props => props.backgroundImage});
-
+  background-size: cover;
   .content {
     color: white;
     display: flex;
