@@ -240,6 +240,7 @@ const Container = styled.div`
       margin: 10px;
       i {
         color: #546e7a !important;
+        cursor: pointer;
       }
     }
     h3 {
@@ -284,6 +285,9 @@ const Card = styled.div`
       justify-content: center;
     }
   }
+  i {
+    cursor: pointer;
+  }
 `;
 
 const Modal = styled.div`
@@ -320,6 +324,7 @@ const Modal = styled.div`
 const LogoutContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  cursor: pointer;
   button {
     margin: 10px;
   }
