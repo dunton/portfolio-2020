@@ -24,19 +24,14 @@ const Home = props => {
       {projects.map(project => {
         return <Project {...project} key={uuid()} />;
       })}
-
-      <Project
-        name="My Resume"
-        link="/resume"
-        image="https://s3.amazonaws.com/dunton-portfolio/media/resume.jpg"
-      />
       <Project
         name="Contact Me!"
         link="contact"
         image="https://s3.amazonaws.com/dunton-portfolio/media/contact.jpg"
+        final={true}
       />
       <a
-        href="https://dunton-portfolio.s3.amazonaws.com/data/DuntonResume.pdf"
+        href="https://dunton-portfolio.s3.amazonaws.com/docs/DuntonResume.pdf"
         target="blank"
       >
         <ResumeButton>
@@ -51,6 +46,7 @@ const Container = styled.div`
   width: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 `;
 
 const ResumeButton = styled.div`
@@ -77,6 +73,8 @@ const ResumeButton = styled.div`
     color: white;
     max-height: 50px;
     padding: 0;
+    font-size: 25px;
+    font-family: 'Teko', sans-serif;
   }
 `;
 

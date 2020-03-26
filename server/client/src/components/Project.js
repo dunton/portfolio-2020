@@ -1,19 +1,92 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Plx from 'react-plx';
+import { debounce } from 'lodash';
 
 // images are 1440x400
 
-const Project = props => {
-  const { image, link, name } = props;
+const Project = ({ image, link, name, final }) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [animationFinished, setAnimationFinished] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener(
+      'resize',
+      debounce(() => setWindowWidth(window.innerWidth), 200)
+    );
+
+    return () => {
+      window.removeEventListener(
+        'resize',
+        debounce(() => setWindowWidth(window.innerWidth), 200)
+      );
+    };
+  });
+
+  let parallaxData = {
+    start: 'self',
+    startOffset: '20vw',
+    end: 'self',
+    endOffset: '50vh',
+    easing: 'easeInSine',
+    properties: [
+      {
+        startValue: 200,
+        endValue: 0,
+        property: 'translateX',
+        unit: ''
+      },
+      {
+        startValue: 0,
+        endValue: 1,
+        property: 'opacity'
+      }
+    ]
+  };
+
+  const endAnimation = () => {
+    setAnimationFinished(true);
+  };
+
+  const isMobile = windowWidth > 769 ? false : true;
+  if (final) {
+    parallaxData = {
+      start: 'self',
+      startOffset: '20vw',
+      end: 'self',
+      endOffset: '30vh',
+      easing: 'easeInSine',
+      properties: [
+        {
+          startValue: 200,
+          endValue: 0,
+          property: 'translateX',
+          unit: ''
+        },
+        {
+          startValue: 0,
+          endValue: 1,
+          property: 'opacity'
+        }
+      ]
+    };
+  }
   return (
-    <ProjectWrapper backgroundImage={image}>
-      <a href={link} target="_blank" rel="noopener noreferrer">
-        <div className="mask"></div>
-        <div className="text-holder">
-          <h2>{name}</h2>
-        </div>
-      </a>
-    </ProjectWrapper>
+    <Plx
+      parallaxData={[parallaxData]}
+      disabled={isMobile}
+      onPlxEnd={endAnimation}
+      freeze={animationFinished}
+    >
+      <ProjectWrapper backgroundImage={image}>
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          <div className="mask"></div>
+          <div className="text-holder">
+            <h2>{name}</h2>
+          </div>
+        </a>
+      </ProjectWrapper>
+    </Plx>
   );
 };
 
@@ -54,6 +127,9 @@ const ProjectWrapper = styled.div`
     }
 
     h2 {
+      font-family: 'Teko', sans-serif;
+      font-weight: 600;
+      text-transform: lowercase;
       color: white;
       margin: 0;
       font-size: 40px;

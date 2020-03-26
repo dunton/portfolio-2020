@@ -8,11 +8,12 @@ class Header extends Component {
         <div className="content">
           <img src={this.props.headshot} alt="headshot" />
           <h1>Ryan Dunton</h1>
-          <h4>Front-End Developer</h4>
+          <h4>Software Developer</h4>
           <p>
-            Below are links to some of my work, my resume and my contact
-            information. <br /> I also built and deployed this website from
-            scratch. Enjoy!
+            I'm a software developer with 3+ years experience creating
+            experiences on the web focused on the frontend but experience with
+            the full stack. Below are links to some of my work, my resume and my
+            contact information. Enjoy!
           </p>
         </div>
       </HeaderContainer>
@@ -32,7 +33,7 @@ const HeaderContainer = styled.div`
     color: white;
     display: flex;
     flex-direction: column;
-    height: 95%;
+    height: 90%;
     justify-content: flex-end;
     padding-left: 50px;
     @media (max-width: 769px) {
@@ -43,7 +44,9 @@ const HeaderContainer = styled.div`
 
     h1 {
       font-size: 4vw;
-      margin: 0;
+      margin: 10px 0 0;
+      font-family: 'Teko', sans-serif;
+      font-weight: 600;
       @media (max-width: 769px) {
         font-size: 25px;
       }
@@ -52,6 +55,7 @@ const HeaderContainer = styled.div`
       margin-top: 5px;
       font-size: 3vw;
       margin: 0;
+      font-family: 'Teko', sans-serif;
       @media (max-width: 769px) {
         font-size: 20px;
       }
@@ -59,6 +63,8 @@ const HeaderContainer = styled.div`
     p {
       font-size: 1.5vw;
       margin-bottom: 0;
+      max-width: 50%;
+      font-family: 'Teko', sans-serif;
       @media (max-width: 769px) {
         display: none;
       }
