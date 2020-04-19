@@ -4,15 +4,16 @@ import { uuid } from 'uuidv4';
 import axios from 'axios';
 import Header from '../components/Header';
 import Project from '../components/Project';
+import OpacityCurtain from '../components/OpacityCurtain';
 
-const Home = props => {
+const HomePage = (props) => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     axios
       .get('/api/projects/findAll')
       .then(({ data }) => setProjects(data))
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }, []);
 
   return (
@@ -21,14 +22,14 @@ const Home = props => {
         mainImage="https://s3.amazonaws.com/dunton-portfolio/media/ny.jpg"
         headshot="https://s3.amazonaws.com/dunton-portfolio/media/headshot.png"
       />
-      {projects.map(project => {
+      {projects.map((project) => {
         return <Project {...project} key={uuid()} />;
       })}
       <Project
-        name="Contact Me!"
-        link="contact"
+        name="Blog"
+        link="/blog"
+        local
         image="https://s3.amazonaws.com/dunton-portfolio/media/contact.jpg"
-        final={true}
       />
       <a
         href="https://dunton-portfolio.s3.amazonaws.com/docs/DuntonResume.pdf"
@@ -78,4 +79,4 @@ const ResumeButton = styled.div`
   }
 `;
 
-export default Home;
+export default HomePage;

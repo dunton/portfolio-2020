@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Plx from 'react-plx';
+import { Link } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 // images are 1440x400
 
-const Project = ({ image, link, name, final }) => {
+const Project = ({ image, link, name, final, local }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [animationFinished, setAnimationFinished] = useState(false);
 
@@ -34,14 +35,14 @@ const Project = ({ image, link, name, final }) => {
         startValue: 200,
         endValue: 0,
         property: 'translateX',
-        unit: ''
+        unit: '',
       },
       {
         startValue: 0,
         endValue: 1,
-        property: 'opacity'
-      }
-    ]
+        property: 'opacity',
+      },
+    ],
   };
 
   const endAnimation = () => {
@@ -61,15 +62,35 @@ const Project = ({ image, link, name, final }) => {
           startValue: 200,
           endValue: 0,
           property: 'translateX',
-          unit: ''
+          unit: '',
         },
         {
           startValue: 0,
           endValue: 1,
-          property: 'opacity'
-        }
-      ]
+          property: 'opacity',
+        },
+      ],
     };
+  }
+
+  if (local) {
+    return (
+      <Plx
+        parallaxData={[parallaxData]}
+        disabled={isMobile}
+        onPlxEnd={endAnimation}
+        freeze={animationFinished}
+      >
+        <ProjectWrapper backgroundImage={image}>
+          <Link to={link}>
+            <div className="mask"></div>
+            <div className="text-holder">
+              <h2>{name}</h2>
+            </div>
+          </Link>
+        </ProjectWrapper>
+      </Plx>
+    );
   }
   return (
     <Plx
@@ -93,7 +114,7 @@ const Project = ({ image, link, name, final }) => {
 const ProjectWrapper = styled.div`
   width: 100%;
   height: 400px;
-  background-image: url(${props => props.backgroundImage});
+  background-image: url(${(props) => props.backgroundImage});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
