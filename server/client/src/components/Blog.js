@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from './Sidebar';
-import { SidebarContext } from '../contexts/SidebarContext';
 
 const Blog = ({ sidebarActive, toggleSideBarActive }) => {
   let [posts, setPosts] = useState([]);
