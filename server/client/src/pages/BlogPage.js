@@ -8,10 +8,13 @@ const BlogPage = (props) => {
   return (
     <>
       <OpacityCurtain
-        active={sidebarActive}
+        sidebarActive={sidebarActive}
         toggleSideBarActive={toggleSidebarActive}
       />
-      <Blog />
+      <Blog
+        sidebarActive={sidebarActive}
+        toggleSideBarActive={toggleSidebarActive}
+      />
     </>
   );
 };

@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const OpacityCurtain = ({ active, toggleSideBarActive }) => {
-  return <Container active={active} onClick={toggleSideBarActive}></Container>;
+const OpacityCurtain = ({ sidebarActive, toggleSideBarActive }) => {
+  return (
+    <Container active={sidebarActive} onClick={toggleSideBarActive}></Container>
+  );
 };
 
 const Container = styled.div`
@@ -15,6 +17,7 @@ const Container = styled.div`
   z-index: ${(props) => (props.active ? 50 : -1)};
   opacity: ${(props) => (props.active ? 1 : 0)};
   transition: 0.25s ease-in;
+  transition-property: opacity;
 `;
 
 export default OpacityCurtain;

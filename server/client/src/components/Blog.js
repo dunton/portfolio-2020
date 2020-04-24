@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import Sidebar from './Sidebar';
 import { SidebarContext } from '../contexts/SidebarContext';
 
-const Blog = () => {
+const Blog = ({ sidebarActive, toggleSideBarActive }) => {
   let [posts, setPosts] = useState([]);
-  const { sidebarActive, toggleSidebarActive } = useContext(SidebarContext);
   useEffect(() => {
     axios
       .get('https://dev.to/api/articles?username=ryan_dunton')
@@ -16,12 +15,17 @@ const Blog = () => {
 
   return (
     <>
-      <Hamburger onClick={toggleSidebarActive}>
-        <div></div>
-        <div></div>
-        <div></div>
+      <Hamburger>
+        <div onClick={toggleSideBarActive}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </Hamburger>
-      <Sidebar active={sidebarActive} />
+      <Sidebar
+        sidebarActive={sidebarActive}
+        toggleSideBarActive={toggleSideBarActive}
+      />
       <Container>
         <h1>Blog Posts</h1>
         <p>
@@ -74,6 +78,9 @@ const Container = styled.div`
     font-family: 'Teko', sans-serif;
     font-weight: 600;
     font-size: 50px;
+    @media screen and (max-width: 769px) {
+      margin-top: 120px;
+    }
   }
   > p {
     text-align: center;
@@ -83,12 +90,17 @@ const Container = styled.div`
     font-size: 30px;
     width: 90%;
     margin: 20px auto;
+    line-height: 1.2;
+    @media screen and (max-width: 769px) {
+      margin-bottom: 10px;
+    }
   }
   > div {
     width: 60%;
     @media screen and (max-width: 769px) {
       width: 100%;
       padding: 0 20px 0 10px;
+      margin-top: 0px;
     }
 
     margin: 100px auto 50px;
@@ -98,8 +110,11 @@ const Container = styled.div`
       margin: 100px auto;
       max-width: 1200px;
       flex-wrap: wrap;
+      justify-content: space-around;
       @media screen and (max-width: 769px) {
         flex-direction: column;
+        justify-content: center;
+        margin-top: 20px;
       }
       > div {
         width: 45%;
@@ -114,6 +129,7 @@ const Container = styled.div`
     text-decoration: none;
     @media screen and (max-width: 769px) {
       max-width: 100%;
+      margin: auto;
     }
   }
 `;
@@ -121,7 +137,8 @@ const Container = styled.div`
 const PostCard = styled.div`
   position: relative;
   height: 400px;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   @media screen and (max-width: 769px) {
     width: 100%;
     height: auto;
@@ -145,18 +162,25 @@ const PostCard = styled.div`
       font-family: 'Teko', sans-serif;
       font-weight: 600;
       font-size: 30px;
+      line-height: 1.2;
     }
 
     p {
       font-family: 'Teko', sans-serif;
       font-weight: 300;
       font-size: 20px;
+      line-height: 1.2;
+      max-width: 80%;
     }
 
     .published {
       position: absolute;
       bottom: 20px;
       margin: 0 0 5px;
+      @media screen and (max-width: 769px) {
+        position: relative;
+        bottom: initial;
+      }
     }
   }
 
@@ -178,16 +202,27 @@ const PostCard = styled.div`
 `;
 
 const Hamburger = styled.div`
-  position: fixed;
-  left: 20px;
-  top: 20px;
-  cursor: pointer;
+  @media screen and (max-width: 769px) {
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  }
 
+  z-index: 49;
+  width: 100%;
+  height: 60px;
   div {
-    height: 5px;
-    width: 40px;
-    background: black;
-    margin: 7px 0;
+    margin: 15px 20px;
+    cursor: pointer;
+
+    div {
+      height: 5px;
+      width: 40px;
+      background: black;
+      margin: 7px 0;
+    }
   }
 `;
 

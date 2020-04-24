@@ -3,7 +3,7 @@ import LoginForm from '../components/admin/LoginForm';
 import { AuthContext } from '../contexts/AuthContext';
 import CurrentProjects from '../components/admin/CurrentProjects';
 
-const Admin = props => {
+const AdminPage = (props) => {
   const { loggedIn } = useContext(AuthContext);
   if (!loggedIn) {
     return <LoginForm />;
@@ -11,4 +11,4 @@ const Admin = props => {
   return <CurrentProjects />;
 };
 
-export default Admin;
+export default AdminPage;
