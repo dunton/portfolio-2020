@@ -20,7 +20,10 @@ const Sidebar = ({ sidebarActive, toggleSideBarActive }) => {
     document.body.classList.remove('no-scroll');
   }
   return (
-    <Container active={sidebarActive}>
+    <Container
+      active={sidebarActive}
+      onClick={() => document.body.classList.remove('no-scroll')}
+    >
       <div className="x">
         <i className="material-icons" onClick={toggleSideBarActive}>
           close
