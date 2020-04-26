@@ -20,7 +20,7 @@ const CurrentProjects = () => {
     axios
       .get('/api/projects/findAll')
       .then(({ data }) => setProjects(data))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, []);
 
   const deleteProject = () => {
@@ -30,7 +30,7 @@ const CurrentProjects = () => {
         setDeleteProjectModalState(false);
         setProjects(data);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   const handleEditProjectClick = (project, i) => {
@@ -45,7 +45,7 @@ const CurrentProjects = () => {
     setDeleteProjectModalState(true);
   };
 
-  const saveProject = e => {
+  const saveProject = (e) => {
     e.preventDefault();
     const selectedProject = projects[selectedProjectIndex];
     if (
@@ -72,10 +72,10 @@ const CurrentProjects = () => {
         setFormLink('');
         setFormImage('');
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  const closeModals = e => {
+  const closeModals = (e) => {
     setDeleteProjectModalState(false);
     setEditProjectModalState(false);
   };
@@ -174,11 +174,11 @@ const CurrentProjects = () => {
 
         {editProjectModalState && (
           <Modal onClick={closeModals}>
-            <div className="project-modal" onClick={e => e.stopPropagation()}>
+            <div className="project-modal" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={saveProject}>
                 <div className="input-field col s6">
                   <input
-                    onChange={e => setFormName(e.target.value)}
+                    onChange={(e) => setFormName(e.target.value)}
                     placeholder={
                       projects[selectedProjectIndex]
                         ? projects[selectedProjectIndex].name
@@ -191,7 +191,7 @@ const CurrentProjects = () => {
                 </div>
                 <div className="input-field col s6">
                   <input
-                    onChange={e => setFormLink(e.target.value)}
+                    onChange={(e) => setFormLink(e.target.value)}
                     placeholder={
                       projects[selectedProjectIndex]
                         ? projects[selectedProjectIndex].link
@@ -204,7 +204,7 @@ const CurrentProjects = () => {
                 </div>
                 <div className="input-field col s6">
                   <input
-                    onChange={e => setFormImage(e.target.value)}
+                    onChange={(e) => setFormImage(e.target.value)}
                     placeholder={
                       projects[selectedProjectIndex]
                         ? projects[selectedProjectIndex].image

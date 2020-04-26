@@ -10,10 +10,9 @@ class Header extends Component {
           <h1>Ryan Dunton</h1>
           <h4>Software Developer</h4>
           <p>
-            I'm a software developer with 3+ years experience creating
-            experiences on the web focused on the frontend but experience with
-            the full stack. Below are links to some of my work, my resume and my
-            contact information. Enjoy!
+            I'm a software developer with 3+ years experience creating cutting
+            edge experiences on the web. Below are links to some of my work, my
+            resume and my contact information. Enjoy!
           </p>
         </div>
       </HeaderContainer>
@@ -27,7 +26,7 @@ const HeaderContainer = styled.div`
   @media (max-width: 769px) {
     height: 50vh;
   }
-  background-image: url(${props => props.backgroundImage});
+  background-image: url(${(props) => props.backgroundImage});
   background-size: cover;
   .content {
     color: white;

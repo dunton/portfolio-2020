@@ -4,7 +4,6 @@ import { uuid } from 'uuidv4';
 import axios from 'axios';
 import Header from '../components/Header';
 import Project from '../components/Project';
-import OpacityCurtain from '../components/OpacityCurtain';
 
 const HomePage = (props) => {
   const [projects, setProjects] = useState([]);
@@ -19,8 +18,8 @@ const HomePage = (props) => {
   return (
     <Container>
       <Header
-        mainImage="https://s3.amazonaws.com/dunton-portfolio/media/ny.jpg"
-        headshot="https://s3.amazonaws.com/dunton-portfolio/media/headshot.png"
+        mainImage="https://dziey5wor84cr.cloudfront.net/media/ny.jpg"
+        headshot="https://dziey5wor84cr.cloudfront.net/media/headshot.png"
       />
       {projects.map((project) => {
         return <Project {...project} key={uuid()} />;
@@ -29,10 +28,10 @@ const HomePage = (props) => {
         name="Blog"
         link="/blog"
         local
-        image="https://s3.amazonaws.com/dunton-portfolio/media/contact.jpg"
+        image="https://dziey5wor84cr.cloudfront.net/media/contact.jpg"
       />
       <a
-        href="https://dunton-portfolio.s3.amazonaws.com/docs/DuntonResume.pdf"
+        href="https://dziey5wor84cr.cloudfront.net/docs/DuntonResume.pdf"
         target="blank"
       >
         <ResumeButton>
